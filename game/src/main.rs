@@ -31,7 +31,10 @@ fn main() {
     let amout_bytes = io::stdin().read_line(&mut guess)
                 .expect("Failed to read the guess");
     println!("You gave an input of size: {amout_bytes}");
-    let guess: u32 = guess.trim().parse().expect("Please type a number!");
+    let guess: u32 = match guess.trim().parse() {
+        Ok(num) => num,
+        Err(_) => continue
+    };
     println!("Which is : {guess}");
 
     match guess.cmp(&secret_number) {
