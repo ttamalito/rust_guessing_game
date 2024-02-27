@@ -1,8 +1,20 @@
 // import the input output library
 use std::io;
+// import the rand package
+use rand::Rng;
+
+// import the Ordering enum
+use std::cmp::Ordering;
 
 fn main() {
-    // ask the user for input
+    // generate the secret number
+    let secret_number = rand::thread_rng()
+    .gen_range(1..=100);
+
+    //println!("The secret number is: {secret_number}");
+
+    loop {
+            // ask the user for input
     println!("Make a guess between 1 and 100!");
     // create a variable to store the user input
     let mut guess = String::new();
@@ -19,9 +31,18 @@ fn main() {
     let amout_bytes = io::stdin().read_line(&mut guess)
                 .expect("Failed to read the guess");
     println!("You gave an input of size: {amout_bytes}");
+    let guess: u32 = guess.trim().parse().expect("Please type a number!");
     println!("Which is : {guess}");
 
-
+    match guess.cmp(&secret_number) {
+        Ordering::Less => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal => {
+            println!("You win!");
+            break;
+        }
+    } // end of match
+    } // end of loop
 
     println!("Hello, world!");
 }
